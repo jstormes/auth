@@ -23,8 +23,8 @@ return [
             'Zend\Expressive\Whoops'            => Container\WhoopsFactory::class,
             'Zend\Expressive\WhoopsPageHandler' => Container\WhoopsPageHandlerFactory::class,
             Zend\Db\Adapter\Adapter::class      => Zend\Db\Adapter\AdapterServiceFactory::class,
-            'UserTable'                         => App\Model\Factory\UserTableGatewayFactory::class,
-            App\Adapters\authAdapter::class     => App\Adapters\authAdapterFactory::class
+            'UserTable'                         => App\Model\TableGateway\UserTableGatewayFactory::class,
+            App\Library\Adapters\authAdapter::class     => App\Library\Adapters\authAdapterFactory::class
         ],
     ],
 
