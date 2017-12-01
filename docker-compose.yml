@@ -9,8 +9,8 @@ services:
       MYSQL_USER: root
       MYSQL_PWD: $MYSQL_ROOT_PASSWORD
       MYSQL_DATABASE_NAME: $MYSQL_DATABASE_NAME
-#      XDEBUG_CONFIG: remote_host=docker.for.win.localhost remote_port=$XDEBUG_REMOTE_PORT
-      XDEBUG_CONFIG: remote_host=docker.for.mac.localhost remote_port=$XDEBUG_REMOTE_PORT
+      XDEBUG_CONFIG: remote_host=docker.for.win.localhost remote_port=$XDEBUG_REMOTE_PORT
+#      XDEBUG_CONFIG: remote_host=docker.for.mac.localhost remote_port=$XDEBUG_REMOTE_PORT
       db_host: 'mysql'
       db_name: $EZOAUTH_DBNAME
       db_user: $EZOAUTH_DBUSER
