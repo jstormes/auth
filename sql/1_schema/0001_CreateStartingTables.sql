@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Dec 01, 2017 at 12:39 AM
+-- Generation Time: Dec 01, 2017 at 05:06 PM
 -- Server version: 10.2.10-MariaDB-10.2.10+maria~jessie
 -- PHP Version: 7.1.9
 
@@ -15,6 +15,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `ezoauth2`
 --
+CREATE DATABASE IF NOT EXISTS `ezoauth2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+USE `ezoauth2`;
 
 -- --------------------------------------------------------
 
@@ -31,8 +33,28 @@ CREATE TABLE `client` (
 -- Dumping data for table `client`
 --
 
-INSERT INTO `client` (`client_id`, `client_name`) VALUES
+INSERT IGNORE INTO `client` (`client_id`, `client_name`) VALUES
 (1, 'auth');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `phone`
+--
+
+CREATE TABLE `phone` (
+  `phone_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `type` enum('unknown','landline','mobile','') COLLATE utf8mb4_bin NOT NULL DEFAULT 'unknown',
+  `phone_number` varchar(50) COLLATE utf8mb4_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Dumping data for table `phone`
+--
+
+INSERT IGNORE INTO `phone` (`phone_id`, `user_id`, `type`, `phone_number`) VALUES
+(1, 2, 'mobile', '817-676-4291');
 
 -- --------------------------------------------------------
 
@@ -52,22 +74,13 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `user_name`, `password`, `full_name`, `name_addressed_by`) VALUES
-(2, 'jstormes@stormes.net', '', 'James W Stormes', 'Jim'),
-(3, 'jstormes@yahoo.com', '', 'James Stormes', 'James');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_phone`
---
-
-CREATE TABLE `user_phone` (
-  `user_phone_id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  `description` varchar(50) COLLATE utf8mb4_bin NOT NULL,
-  `type` enum('unknown','landline','mobile','') COLLATE utf8mb4_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+INSERT IGNORE INTO `user` (`user_id`, `user_name`, `password`, `full_name`, `name_addressed_by`) VALUES
+(2, 'jstormes@stormes.net', 'Xtx!41365', 'James W Stormes', 'Jim2'),
+(3, 'jstormes@yahoo.com', '', 'James Stormes', 'James'),
+(4, 'tom@tome.com', 'password', 'Tom Man', 'Tom'),
+(6, 'test@test.com', 'password', 'test user', 'test'),
+(7, 'test2@test.com', 'Xtx!41365', 'test', 'test'),
+(20, 'test3@test.com', 'password', 'test', 'test');
 
 -- --------------------------------------------------------
 
@@ -92,19 +105,19 @@ ALTER TABLE `client`
   ADD UNIQUE KEY `client_name` (`client_name`);
 
 --
+-- Indexes for table `phone`
+--
+ALTER TABLE `phone`
+  ADD PRIMARY KEY (`phone_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
   ADD UNIQUE KEY `user_name` (`user_name`);
 ALTER TABLE `user` ADD FULLTEXT KEY `user_fulltext` (`full_name`,`name_addressed_by`,`user_name`);
-
---
--- Indexes for table `user_phone`
---
-ALTER TABLE `user_phone`
-  ADD PRIMARY KEY (`user_phone_id`),
-  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `user_to_client`
@@ -124,25 +137,25 @@ ALTER TABLE `client`
   MODIFY `client_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `phone`
+--
+ALTER TABLE `phone`
+  MODIFY `phone_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `user_phone`
---
-ALTER TABLE `user_phone`
-  MODIFY `user_phone_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `user_phone`
+-- Constraints for table `phone`
 --
-ALTER TABLE `user_phone`
+ALTER TABLE `phone`
   ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
