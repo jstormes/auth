@@ -1,0 +1,68 @@
+<?php $this->layout('layout::default', ['title' => 'Home']) ?>
+
+<?php if (!empty($this->data['error'])) : ?>
+    <div class="container">
+        <div class="col-md-1">
+            &nbsp;
+        </div>
+        <div class="col-md-10">
+            <div class="alert alert-danger" role="alert">
+                <strong>Oh snap!</strong> <?php echo $this->data['error']; ?>
+            </div>
+        </div>
+    </div>
+<?php endif ?>
+
+<div class="container">
+    <form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']);?>" method="post">
+        <input type="hidden" name="user_id" value="<?php echo $this->data['user']->getUserId(); ?>">
+        <div class="form-group">
+            <label for="user_name" class="col-md-2 control-label">user_name</label>
+            <div class="col-md-9">
+                <input type="email" name="user_name" class="form-control" id="user_name" placeholder="user_name" value="<?php echo $this->data['user']->getUserName(); ?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-md-2 control-label">password</label>
+            <div class="col-md-9">
+                <input type="password" name="password" class="form-control" id="password" placeholder="password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="full_name" class="col-md-2 control-label">full_name</label>
+            <div class="col-md-9">
+                <input class="form-control" name="full_name" id="full_name" placeholder="full_name" value="<?php echo $this->data['user']->getFullName(); ?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name_addressed_by" class="col-md-2 control-label">name_addressed_by</label>
+            <div class="col-md-9">
+                <input class="form-control" name="name_addressed_by" id="name_addressed_by" placeholder="name_addressed_by" value="<?php echo $this->data['user']->getNameAddressedBy(); ?>">
+            </div>
+        </div>
+        <?php foreach ($this->data['user']->getPhone() as $phone) : ?>
+        <div class="form-group">
+            <label for="phone" class="col-md-2 control-label">phone</label>
+            <div class="col-md-9">
+                <input class="form-control" name="phone" id="phone" placeholder="phone" value="<?php echo $phone->getPhoneNumber(); ?>">
+            </div>
+        </div>
+        <?php endforeach ?>
+
+        <div class="form-group">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+                <a class="btn btn-primary" href="/users">Cancel</a>
+                <?php if ($this->data['is_new_user']) : ?>
+                    <button type="submit" name="action" value="save" class="btn btn-primary" value="submit">Add User</button>
+                <?php else : ?>
+                    <button type="submit" name="action" value="save" class="btn btn-primary" value="submit">Update User</button>
+                    <button type="submit" name="action" value="delete" class="btn btn-primary">Delete User</button>
+                <?php endif ?>
+            </div>
+
+        </div>
+    </form>
+</div>

@@ -1,0 +1,71 @@
+/*  Layout for all pages the use the standard header, footer and menu logic.
+    This is the structural CSS for the /application/layouts/scripts/layout.phtml
+    file.
+
+    This css is for Bootstrap styled web pages that need to layout the page
+    like an application, where menus and common controls stay at the top.
+  +-----------------------------------------------------------------------------+
+  |                                                                             |
+  |                                 #header                                     |
+  |                                                                             |
+  |                                                                             |
+  |-----------------------------------------------------------------------------|
+  |                                                                            ^|
+  |                                                                            H|
+  |                                                                            H|
+  |                                                                            H|
+  |                                #mainContent                                H|
+  |                                                                            H|
+  |                                                                            H|
+  |                                                                            H|
+  |                                                                            H|
+  |                                                                            v|
+  |<==========================================================================> |
+  |-----------------------------------------------------------------------------|
+  |                                 #footer                                     |
+  +-----------------------------------------------------------------------------+
+  NOTES: header, mainContent and footer ID's are reserved for this body layout!!
+  We are in essence wrapping all our pages in this new body layout.
+
+  
+*/
+
+html,
+body {
+    height:100%;
+    width:100%;
+
+}
+
+header {
+    background:#ff0;
+    position:absolute;
+    top:0px;
+    left:0px;
+    height:4em;
+    right:0px;
+    overflow:hidden;
+}
+
+#content {
+    position:absolute;
+    top:4em;
+    bottom:4em;
+    left:0px;
+    right:0px;
+    overflow:auto;
+
+}
+
+
+footer {
+
+    position:absolute;
+    bottom:0px;
+    height:4em;
+    left:0px;
+    right:0px;
+    overflow:hidden;
+
+    background:#6cf;
+}
