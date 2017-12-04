@@ -46,6 +46,8 @@ class User
     private $adapter;
 
 
+
+
     public function __construct($adapter)
     {
         $this->adapter = $adapter;
@@ -97,6 +99,9 @@ class User
      */
     public function setUserName($user_name)
     {
+        if ($user_name=="jim@test.com") {
+            throw new \Exception("No Jim's");
+        }
         $this->user_name = $user_name;
     }
 
