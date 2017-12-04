@@ -1,5 +1,5 @@
 # This is a convenience container tun run bash with tools
-FROM php:apache
+FROM php:7.1-apache
 MAINTAINER You
 
 # Install Linux tools
