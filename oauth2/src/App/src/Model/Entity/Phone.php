@@ -14,22 +14,50 @@ class Phone
     /**
      * @var int
      */
-    private $phone_id       =0;
+    private $phone_id       = 0;
 
     /**
      * @var int
      */
-    private $user_id        =0;
+    private $user_id        = 0;
 
     /**
      * @var string
      */
-    private $type           ='unknown';
+    private $type           = 'unknown';
 
     /**
      * @var string
      */
-    private $phone_number   ='';
+    private $phone_number   = ' ';
+
+    /**
+     * @var array
+     */
+    private $types          = [];
+
+    /**
+     * @var \Zend\Db\TableGateway\TableGateway
+     */
+    private $tableGateway   = null;
+
+    public function __construct($tableGateway)
+    {
+        $this->tableGateway = $tableGateway;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTypes()
+    {
+        $t=$this->tableGateway->getColumns();
+        $t2=$this->tableGateway->getFeatureSet();
+        $t3=$this->tableGateway->getTable();
+        //$t3->getColumns();
+        //$info = $this->tableGateway->getInfofTable();
+        return $this->types;
+    }
 
     /**
      * @return int

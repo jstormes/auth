@@ -22,12 +22,21 @@ class PhoneTableGateway extends TableGateway
 
     public function __construct(AdapterInterface $adapter)
     {
-        $phone          = new Phone($adapter);
+        $phone          = new Phone($this);
 
         $hydrator       = new ClassMethods();
 
         $resultSet      = new HydratingResultSet($hydrator, $phone);
 
         parent::__construct('phone', $adapter, new MetadataFeature(), $resultSet);
+    }
+
+    function getInfofTable()
+    {
+        $m = $this->getColumn('type');
+
+        //$column = $columns['type'];
+        $data = $this->getInfo();
+        return $data;
     }
 }
