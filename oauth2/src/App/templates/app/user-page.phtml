@@ -25,6 +25,13 @@
     <input type="hidden" name="user_id" value="<?php echo $this->data['user']->getUserId(); ?>">
 
     <div class="well well-sm">
+        <div class="container">
+            <div class="col-md-11">
+                <h3>user_record</h3>
+                <hr>
+            </div>
+        </div>
+
         <div class="form-group">
             <label for="user_name" class="col-md-2 control-label">user_name</label>
             <div class="col-md-9">
@@ -71,6 +78,12 @@
 <!-- contact_methods -->
 <form class="form-horizontal">
     <div class="well well-sm">
+        <div class="container">
+            <div class="col-md-11">
+                <h3>user_contact_methods</h3>
+                <hr>
+            </div>
+        </div>
         <?php foreach ($this->data['user']->getContactMethods() as $contactMethod) : ?>
         <div class="form-group">
             <label for="phone" class="col-md-2 control-label"><?php echo $contactMethod->getType(); ?></label>
