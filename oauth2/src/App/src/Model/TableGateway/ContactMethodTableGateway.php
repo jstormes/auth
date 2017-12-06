@@ -15,20 +15,20 @@ use Zend\Hydrator\ClassMethods;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\TableGateway\Feature\MetadataFeature;
 
-use App\Model\Entity\Phone;
+use App\Model\Entity\ContactMethod;
 
-class PhoneTableGateway extends TableGateway
+class ContactMethodTableGateway extends TableGateway
 {
 
     public function __construct(AdapterInterface $adapter)
     {
-        $phone          = new Phone($this);
+        $phone          = new ContactMethod($this);
 
         $hydrator       = new ClassMethods();
 
         $resultSet      = new HydratingResultSet($hydrator, $phone);
 
-        parent::__construct('phone', $adapter, new MetadataFeature(), $resultSet);
+        parent::__construct('contact_method', $adapter, new MetadataFeature(), $resultSet);
     }
 
     function getInfofTable()

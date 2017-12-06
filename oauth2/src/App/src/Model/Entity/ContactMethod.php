@@ -9,12 +9,12 @@
 namespace App\Model\Entity;
 
 
-class Phone
+class ContactMethod
 {
     /**
      * @var int
      */
-    private $phone_id       = 0;
+    private $contact_method_id       = 0;
 
     /**
      * @var int
@@ -29,7 +29,8 @@ class Phone
     /**
      * @var string
      */
-    private $phone_number   = ' ';
+    private $contact_value   = ' ';
+
 
     /**
      * @var array
@@ -62,17 +63,17 @@ class Phone
     /**
      * @return int
      */
-    public function getPhoneId()
+    public function getContactmethodId()
     {
-        return $this->phone_id;
+        return $this->contact_method_id;
     }
 
     /**
-     * @param int $phone_id
+     * @param int $contact_method_id
      */
-    public function setPhoneId($phone_id)
+    public function setContactmethodId($contact_method_id)
     {
-        $this->phone_id = $phone_id;
+        $this->contact_method_id = $contact_method_id;
     }
 
     /**
@@ -110,17 +111,17 @@ class Phone
     /**
      * @return string
      */
-    public function getPhoneNumber()
+    public function getContactValue()
     {
-        return $this->phone_number;
+        return $this->contact_value;
     }
 
     /**
-     * @param string $phone_number
+     * @param string $contact_value
      */
-    public function setPhoneNumber($phone_number)
+    public function setContactValue($contact_value)
     {
-        $this->phone_number = $phone_number;
+        $this->contact_value = $contact_value;
     }
 
 

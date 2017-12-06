@@ -71,14 +71,14 @@
 <!-- contact_methods -->
 <form class="form-horizontal">
     <div class="well well-sm">
-        <?php foreach ($this->data['user']->getPhone() as $phone) : ?>
+        <?php foreach ($this->data['user']->getContactMethods() as $contactMethod) : ?>
         <div class="form-group">
-            <label for="phone" class="col-md-2 control-label"><?php echo $phone->getType(); ?></label>
+            <label for="phone" class="col-md-2 control-label"><?php echo $contactMethod->getType(); ?></label>
             <div class="col-md-4">
                 <div class="input-group">
-                    <input type="tel" class="form-control" placeholder="(555) 555-5555" value="<?php echo $phone->getPhoneNumber(); ?>" readonly>
+                    <input type="tel" class="form-control" placeholder="(555) 555-5555" value="<?php echo $contactMethod->getContactValue(); ?>" readonly>
                     <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#phoneModal<?php echo $phone->getPhoneId(); ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#phoneModal<?php echo $contactMethod->getContactMethodId(); ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
                         <a class="btn btn-primary" href="skype:********?call"><i class="fa fa-skype" aria-hidden="true"></i></a>
                         <a class="btn btn-primary" href="tel:+1800229933"><i class="fa fa-phone" aria-hidden="true"></i></a>
                         <a class="btn btn-primary" href="sms:1-408-555-1212"><i class="fa fa-commenting-o" aria-hidden="true"></i></a>
@@ -103,15 +103,15 @@
     </div>
 
     <!-- Edit contact_method Modal -->
-    <?php foreach ($this->data['user']->getPhone() as $phone) : ?>
-    <div class="modal fade" id="phoneModal<?php echo $phone->getPhoneId(); ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <?php foreach ($this->data['user']->getContactMethods() as $contactMethod) : ?>
+    <div class="modal fade" id="phoneModal<?php echo $contactMethod->getContactMethodId(); ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Add Phone</h4>
                 </div>
-                <iframe src="/user/<?php echo $this->data['user']->getUserId(); ?>/phone/<?php echo $phone->getPhoneId(); ?>" width="100%" frameBorder="0"></iframe>
+                <iframe src="/user/<?php echo $this->data['user']->getUserId(); ?>/phone/<?php echo $contactMethod->getContactMethodId(); ?>" width="100%" frameBorder="0"></iframe>
             </div>
         </div>
     </div>

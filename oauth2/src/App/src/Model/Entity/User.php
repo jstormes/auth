@@ -8,7 +8,7 @@
 
 namespace App\Model\Entity;
 
-use App\Model\TableGateway\PhoneTableGateway;
+use App\Model\TableGateway\ContactMethodTableGateway;
 
 class User
 {
@@ -153,14 +153,14 @@ class User
         $this->name_addressed_by = $name_addressed_by;
     }
 
-    public function setPhone($phone)
+    public function setContactMethods($contactMethod)
     {
 
     }
 
-    public function getPhone()
+    public function getContactMethods()
     {
-        $phoneTable = new PhoneTableGateway($this->adapter);
+        $phoneTable = new ContactMethodTableGateway($this->adapter);
         return $phoneTable->select(array('user_id'=>$this->user_id));
     }
 
