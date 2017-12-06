@@ -32,3 +32,4 @@ $app->get('/users',App\Action\UsersPageAction::class, 'users');
 //$app->get('/user/{user_id}',App\Action\UserPageAction::class, 'user');
 //$app->post('/user/{user_id}',App\Action\UserPageAction::class, 'user');
 $app->route('/user[/{user_id}]',App\Action\UserPageAction::class);
+$app->route('/user/{user_id}/phone[/{phone_id}]',App\Action\UserPhonePageAction::class);

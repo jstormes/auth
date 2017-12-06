@@ -40,6 +40,7 @@ class ConfigProvider
                 Action\HomePageAction::class => Action\HomePageFactory::class,
                 Action\UsersPageAction::class => Action\UsersPageFactory::class,
                 Action\UserPageAction::class => Action\UserPageFactory::class,
+                Action\UserPhonePageAction::class => Action\UserPhonePageFactory::class,
             ],
         ];
     }

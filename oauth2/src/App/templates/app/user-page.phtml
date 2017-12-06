@@ -20,7 +20,7 @@
     </div>
 <?php endif ?>
 
-<!-- User -->
+<!-- User Info -->
 <form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']);?>" method="post">
     <input type="hidden" name="user_id" value="<?php echo $this->data['user']->getUserId(); ?>">
 
@@ -49,6 +49,7 @@
                 <input class="form-control" name="name_addressed_by" id="name_addressed_by" placeholder="name_addressed_by" value="<?php echo $this->data['user']->getNameAddressedBy(); ?>">
             </div>
         </div>
+
         <div class="form-group">
             <div class="col-md-8">
                 &nbsp;
@@ -62,22 +63,26 @@
                     <button type="submit" name="action" value="delete" class="btn btn-primary">Delete User</button>
                 <?php endif ?>
             </div>
-
         </div>
+
     </div>
 </form>
 
-<!-- Phone -->
-<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']);?>" method="post">
+<!-- contact_methods -->
+<form class="form-horizontal">
     <div class="well well-sm">
         <?php foreach ($this->data['user']->getPhone() as $phone) : ?>
         <div class="form-group">
             <label for="phone" class="col-md-2 control-label"><?php echo $phone->getType(); ?></label>
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="(555) 555-5555" value="<?php echo $phone->getPhoneNumber(); ?>">
+                    <input type="tel" class="form-control" placeholder="(555) 555-5555" value="<?php echo $phone->getPhoneNumber(); ?>" readonly>
                     <span class="input-group-btn">
-                        <button class="btn btn-primary" name="delete-phone" value="" type="button">X</button>
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#phoneModal<?php echo $phone->getPhoneId(); ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                        <a class="btn btn-primary" href="skype:********?call"><i class="fa fa-skype" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary" href="tel:+1800229933"><i class="fa fa-phone" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary" href="sms:1-408-555-1212"><i class="fa fa-commenting-o" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary" href="mailto:1-408-555-1212"><i class="fa fa-envelope" aria-hidden="true"></i></a>
                     </span>
                 </div>
             </div>
@@ -90,48 +95,41 @@
             </div>
             <div class="col-md-4">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#phoneModal">
-                    Add Phone
+                    Add contact_method
                 </button>
 
             </div>
         </div>
     </div>
-</form>
 
-
-
-<!-- Phone Modal -->
-<div class="modal fade" id="phoneModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form class="form-inline" action="/user/2/phone" method="post">
+    <!-- Edit contact_method Modal -->
+    <?php foreach ($this->data['user']->getPhone() as $phone) : ?>
+    <div class="modal fade" id="phoneModal<?php echo $phone->getPhoneId(); ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Add Phone</h4>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="new_phone_number" class="control-label">new_phone_number</label>&nbsp;
-                        <input class="form-control" name="new_phone_number" id="new_phone_number" placeholder="(555) 555-5555" value="">
-                    </div>
-                    &nbsp;&nbsp;
-                    <div class="form-group">
-                        <label for="sel1" class="control-label">phone_type</label>&nbsp;
-                        <?php $t=$this->data['user']->getPhone();
-                        $t->current()->getTypes();?>
-                        <select class="form-control" id="sel1">
-                            <option>mobile</option>
-                            <option>landline</option>
-                        </select>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" name="action" value="add_phone" class="btn btn-primary">Add Phone</button>
-                </div>
-            </form>
+                <iframe src="/user/<?php echo $this->data['user']->getUserId(); ?>/phone/<?php echo $phone->getPhoneId(); ?>" width="100%" frameBorder="0"></iframe>
+            </div>
         </div>
     </div>
-</div>
+    <?php endforeach ?>
+
+    <!-- Add New contact_method Modal -->
+    <div class="modal fade" id="phoneModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add Phone</h4>
+                </div>
+                <iframe src="/user/2/phone" width="100%" frameBorder="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+</form>
+
 
