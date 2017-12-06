@@ -1,0 +1,41 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: james.s
+ * Date: 12/4/2017
+ * Time: 1:12 PM
+ */
+
+$this->layout('layout::nohtml', ['title' => 'Phone']) ?>
+
+<!--<div class="modal-dialog" role="document">-->
+<!--    <div class="modal-content">-->
+        <form class="form-inline" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']);?>" method="post">
+<!--            <div class="modal-header">-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+<!--                <h4 class="modal-title" id="myModalLabel">Add Phone</h4>-->
+<!--            </div>-->
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="new_phone_number" class="control-label">new_phone_number</label>&nbsp;
+                    <input class="form-control" name="new_phone_number" id="new_phone_number" placeholder="(555) 555-5555" value="">
+                </div>
+                &nbsp;&nbsp;
+                <div class="form-group">
+                    <label for="sel1" class="control-label">phone_type</label>&nbsp;
+                    <?php //$t=$this->data['user']->getPhone();
+                    //$t->current()->getTypes();?>
+                    <select class="form-control" id="sel1">
+                        <option>mobile</option>
+                        <option>landline</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" name="action" value="add_phone" class="btn btn-primary">Add Phone</button>
+            </div>
+        </form>
+<!--    </div>-->
+<!--</div>-->
