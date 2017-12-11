@@ -52,18 +52,20 @@ class ContactMethod
      */
     public function getTypes()
     {
-        $t=$this->tableGateway->getColumns();
-        $t2=$this->tableGateway->getFeatureSet();
-        $t3=$this->tableGateway->getTable();
+        //$t=$this->tableGateway->getColumns();
+        //$t2=$this->tableGateway->getFeatureSet();
+        //$t3=$this->tableGateway->getTable();
         //$t3->getColumns();
         //$info = $this->tableGateway->getInfofTable();
-        return $this->types;
+        // TODO: Change this to read from DB enum options.
+        return ['unknown','landline','mobile','skype'];
+        //return $this->types;
     }
 
     /**
      * @return int
      */
-    public function getContactmethodId()
+    public function getContactMethodId()
     {
         return $this->contact_method_id;
     }
@@ -71,7 +73,7 @@ class ContactMethod
     /**
      * @param int $contact_method_id
      */
-    public function setContactmethodId($contact_method_id)
+    public function setContactMethodId($contact_method_id)
     {
         $this->contact_method_id = $contact_method_id;
     }
