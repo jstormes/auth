@@ -22,21 +22,13 @@ class ContactMethodTableGateway extends TableGateway
 
     public function __construct(AdapterInterface $adapter)
     {
-        $phone          = new ContactMethod($this);
+        $contact_method = new ContactMethod($this);
 
         $hydrator       = new ClassMethods();
 
-        $resultSet      = new HydratingResultSet($hydrator, $phone);
+        $resultSet      = new HydratingResultSet($hydrator, $contact_method);
 
         parent::__construct('contact_method', $adapter, new MetadataFeature(), $resultSet);
     }
 
-    function getInfofTable()
-    {
-        $m = $this->getColumn('type');
-
-        //$column = $columns['type'];
-        $data = $this->getInfo();
-        return $data;
-    }
 }

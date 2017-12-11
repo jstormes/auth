@@ -52,11 +52,6 @@ class ContactMethod
      */
     public function getTypes()
     {
-        $t=$this->tableGateway->getColumns();
-        $t2=$this->tableGateway->getFeatureSet();
-        $t3=$this->tableGateway->getTable();
-        //$t3->getColumns();
-        //$info = $this->tableGateway->getInfofTable();
         return $this->types;
     }
 

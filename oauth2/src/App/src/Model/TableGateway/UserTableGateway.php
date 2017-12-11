@@ -37,16 +37,16 @@ class UserTableGateway extends TableGateway
 
         $data = $hydrator->extract($user);
 
-        foreach($data as $key=>$value) {
-            switch (gettype($value)) {
-                case 'object':
-                    $this->saveObject($value);
-                case 'array':
-                    $this->saveArray($value);
-                    unset($data[$key]);
-                    break;
-            }
-        }
+//        foreach($data as $key=>$value) {
+//            switch (gettype($value)) {
+//                case 'object':
+//                    $this->saveObject($value);
+//                case 'array':
+//                    $this->saveArray($value);
+//                    unset($data[$key]);
+//                    break;
+//            }
+//        }
 
         if (empty($data['user_id'])) {
             $data['user_id']=null;
@@ -72,12 +72,12 @@ class UserTableGateway extends TableGateway
         return parent::delete(array('user_id'=>$user->getUserId()));
     }
 
-    public function saveObject($object) {
-
-    }
-
-    public function saveArray($data) {
-
-    }
+//    public function saveObject($object) {
+//
+//    }
+//
+//    public function saveArray($data) {
+//
+//    }
 
 }
