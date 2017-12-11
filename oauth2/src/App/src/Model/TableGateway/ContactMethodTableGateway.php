@@ -22,13 +22,49 @@ class ContactMethodTableGateway extends TableGateway
 
     public function __construct(AdapterInterface $adapter)
     {
-        $contact_method = new ContactMethod($this);
+
+        $contactMethod  = new ContactMethod($this);
 
         $hydrator       = new ClassMethods();
 
-        $resultSet      = new HydratingResultSet($hydrator, $contact_method);
+        $resultSet      = new HydratingResultSet($hydrator, $contactMethod);
 
         parent::__construct('contact_method', $adapter, new MetadataFeature(), $resultSet);
+    }
+
+
+    public function fetch($id) {
+
+        if ($id===null) {
+            $tableGatewayPrototype = $this->getResultSetPrototype();
+            return clone ($tableGatewayPrototype->getObjectPrototype());
+        }
+
+        return $this->select(array('contact_method_id'=>$id))->current();
+    }
+
+    public function save($contact_method)
+    {
+        $hydrator = new ClassMethods();
+
+        $data = $hydrator->extract($contact_method);
+
+        // TODO: Hack get rid of me...
+        unset($data['types']);
+
+        if (empty($data['contact_method_id'])) {
+            $data['contact_method_id']=null;
+            $this->insert($data);
+        }
+        else {
+            $this->update($data,array('contact_method_id'=>$data['contact_method_id']));
+        }
+
+    }
+
+    public function delete($contact_method)
+    {
+        return parent::delete(array('contact_method_id'=>$contact_method->getContactMethodId()));
     }
 
 }

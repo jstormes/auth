@@ -26,7 +26,7 @@ use Zend\Db\TableGateway\AbstractTableGateway;
 use App\Model\UserTableGateway;
 
 
-class UserPhonePageAction implements ServerMiddlewareInterface
+class UserContactPageAction implements ServerMiddlewareInterface
 {
     private $router;
 
@@ -51,25 +51,27 @@ class UserPhonePageAction implements ServerMiddlewareInterface
         try {
 
             $user_id=$request->getAttribute('user_id',null);
-            $phone_id=$request->getAttribute('phone_id',null);
+            $contact_method_id=$request->getAttribute('contact_method_id',null);
 
-            $form_data['is_new_phone'] = ($phone_id===null);
+            $form_data['is_new_contact_method'] = ($contact_method_id===null);
 
-            $phone = $this->table->fetch($phone_id, $user_id);
+            $contact_method = $this->table->fetch($contact_method_id);
+
+            $contact_method->setUserId($user_id);
 
             if ($request->getMethod()=='POST') {
 
                 $form = $request->getParsedBody();
 
                 $hydrator = new \Zend\Hydrator\ClassMethods();
-                $hydrator->hydrate($form, $phone);
+                $hydrator->hydrate($form, $contact_method);
 
                 if ($form['action']=='save') {
-                    $this->table->save($phone);
+                    $this->table->save($contact_method);
                 }
 
                 if ($form['action']=='delete') {
-                    $this->table->delete($phone);
+                    $this->table->delete($contact_method);
                 }
 
                 return new HtmlResponse($this->template->render('app::parent-refresh', $form_data));
@@ -81,8 +83,8 @@ class UserPhonePageAction implements ServerMiddlewareInterface
             $form_data['error']=$e->getMessage();
         }
 
-        $form_data['phone']=$phone;
-        return new HtmlResponse($this->template->render('app::user-phone-page', $form_data));
+        $form_data['contact_method']=$contact_method;
+        return new HtmlResponse($this->template->render('app::user-contact-page', $form_data));
     }
 
 }

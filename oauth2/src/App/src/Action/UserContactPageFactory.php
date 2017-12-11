@@ -7,16 +7,16 @@ use Zend\Expressive\Router\RouterInterface;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use App\Model\UsersTable;
 
-class UserPhonePageFactory
+class UserContactPageFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        $table = $container->get( 'UserTable' );
+        $table = $container->get( 'ContactMethodTable' );
         $router   = $container->get(RouterInterface::class);
         $template = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
             : null;
 
-        return new UserPhonePageAction($router, $template, $table);
+        return new UserContactPageAction($router, $template, $table);
     }
 }

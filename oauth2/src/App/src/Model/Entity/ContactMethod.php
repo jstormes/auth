@@ -35,7 +35,7 @@ class ContactMethod
     /**
      * @var array
      */
-    private $types          = [];
+    private $types          = ['unknown','landline','mobile','skype'];
 
     /**
      * @var \Zend\Db\TableGateway\TableGateway
@@ -52,13 +52,15 @@ class ContactMethod
      */
     public function getTypes()
     {
+
         return $this->types;
+
     }
 
     /**
      * @return int
      */
-    public function getContactmethodId()
+    public function getContactMethodId()
     {
         return $this->contact_method_id;
     }
@@ -66,7 +68,7 @@ class ContactMethod
     /**
      * @param int $contact_method_id
      */
-    public function setContactmethodId($contact_method_id)
+    public function setContactMethodId($contact_method_id)
     {
         $this->contact_method_id = $contact_method_id;
     }

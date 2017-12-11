@@ -62,7 +62,6 @@
                 &nbsp;
             </div>
             <div class="col-md-4">
-                <a class="btn btn-primary" href="/users">Cancel</a>
                 <?php if ($this->data['is_new_user']) : ?>
                     <button type="submit" name="action" value="save" class="btn btn-primary" value="submit">Add User</button>
                 <?php else : ?>
@@ -122,9 +121,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Add Phone</h4>
+                    <h4 class="modal-title" id="myModalLabel">update_contact_method</h4>
                 </div>
-                <iframe src="/user/<?php echo $this->data['user']->getUserId(); ?>/phone/<?php echo $contactMethod->getContactMethodId(); ?>" width="100%" frameBorder="0"></iframe>
+                <iframe src="/user/<?php echo $this->data['user']->getUserId(); ?>/contact/<?php echo $contactMethod->getContactMethodId(); ?>" width="100%" frameBorder="0"></iframe>
             </div>
         </div>
     </div>
@@ -136,9 +135,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Add Phone</h4>
+                    <h4 class="modal-title" id="myModalLabel">add_contact_method</h4>
                 </div>
-                <iframe src="/user/2/phone" width="100%" frameBorder="0"></iframe>
+                <iframe src="/user/<?php echo $this->data['user']->getUserId(); ?>/contact" width="100%" frameBorder="0"></iframe>
             </div>
         </div>
     </div>

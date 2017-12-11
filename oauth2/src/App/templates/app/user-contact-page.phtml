@@ -1,0 +1,53 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: james.s
+ * Date: 12/4/2017
+ * Time: 1:12 PM
+ */
+
+$this->layout('layout::nohtml', ['title' => 'contact_method']) ?>
+
+<!-- Error Notification -->
+<?php if (!empty($this->data['error'])) : ?>
+    <div class="container">
+        <div class="col-md-1">
+            &nbsp;
+        </div>
+        <div class="col-md-10">
+            <div class="alert alert-danger" role="alert">
+                <strong>Oh snap!</strong> <?php echo $this->data['error']; ?>
+            </div>
+        </div>
+    </div>
+<?php endif ?>
+
+<form class="form-inline" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']);?>" method="post">
+    <input type="hidden" name="user_id" value="<?php echo $this->data['contact_method']->getUserId(); ?>">
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="new_contact_value" class="control-label">contact_value</label>&nbsp;
+            <input class="form-control" name="contact_value" id="new_contact_value" value="<?php echo $this->data['contact_method']->getContactValue(); ?>">
+        </div>
+        &nbsp;&nbsp;
+        <div class="form-group">
+            <label for="contact_type" class="control-label">contact_type</label>&nbsp;
+            <?php $types=$this->data['contact_method']->getTypes(); ?>
+            <select class="form-control" id="contact_type" name="type">
+                <?php foreach ($types as $type) : ?>
+                    <?php if ($type==$this->data['contact_method']->getType()) : ?>
+                        <option selected><?php echo $type; ?></option>
+                    <?php else : ?>
+                        <option><?php echo $type; ?></option>
+                    <?php endif; ?>
+                <?php endforeach ?>
+            </select>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" name="action" value="save" class="btn btn-primary">save</button>
+        <button type="submit" name="action" value="delete" class="btn btn-primary">delete</button>
+    </div>
+</form>
+

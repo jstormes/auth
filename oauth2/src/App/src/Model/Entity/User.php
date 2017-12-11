@@ -160,7 +160,7 @@ class User
 
     public function getContactMethods()
     {
-        $phoneTable = new ContactMethodTableGateway($this->adapter);
+        $phoneTable = new ContactMethodTableGateway($this->adapter, null);
         return $phoneTable->select(array('user_id'=>$this->user_id));
     }
 
