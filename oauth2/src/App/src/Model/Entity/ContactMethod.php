@@ -24,7 +24,7 @@ class ContactMethod
     /**
      * @var string
      */
-    private $type           = 'unknown';
+    private $contact_method_type           = 'unknown';
 
     /**
      * @var string
@@ -92,18 +92,20 @@ class ContactMethod
     /**
      * @return string
      */
-    public function getType()
+    public function getContactMethodType()
     {
-        return $this->type;
+        return $this->contact_method_type;
     }
 
     /**
-     * @param string $type
+     * @param string $contact_method_type
      */
-    public function setType($type)
+    public function setContactMethodType($contact_method_type)
     {
-        $this->type = $type;
+        $this->contact_method_type = $contact_method_type;
     }
+
+
 
     /**
      * @return string

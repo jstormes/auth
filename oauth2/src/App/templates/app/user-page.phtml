@@ -85,16 +85,12 @@
         </div>
         <?php foreach ($this->data['user']->getContactMethods() as $contactMethod) : ?>
         <div class="form-group">
-            <label for="phone" class="col-md-2 control-label"><?php echo $contactMethod->getType(); ?></label>
+            <label for="phone" class="col-md-2 control-label"><?php echo $contactMethod->getContactMethodType(); ?></label>
             <div class="col-md-4">
                 <div class="input-group">
                     <input type="tel" class="form-control" placeholder="(555) 555-5555" value="<?php echo $contactMethod->getContactValue(); ?>" readonly>
                     <span class="input-group-btn">
                         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#phoneModal<?php echo $contactMethod->getContactMethodId(); ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                        <a class="btn btn-primary" href="skype:********?call"><i class="fa fa-skype" aria-hidden="true"></i></a>
-                        <a class="btn btn-primary" href="tel:+1800229933"><i class="fa fa-phone" aria-hidden="true"></i></a>
-                        <a class="btn btn-primary" href="sms:1-408-555-1212"><i class="fa fa-commenting-o" aria-hidden="true"></i></a>
-                        <a class="btn btn-primary" href="mailto:1-408-555-1212"><i class="fa fa-envelope" aria-hidden="true"></i></a>
                     </span>
                 </div>
             </div>

@@ -28,8 +28,15 @@ use App\Model\UserTableGateway;
 
 class UserContactPageAction implements ServerMiddlewareInterface
 {
-    private $router;
 
+    /**
+     * @var AbstractTableGateway
+     */
+    private $contactTypeTable;
+
+    /**
+     * @var Template\TemplateRendererInterface
+     */
     private $template;
 
     /**
@@ -37,11 +44,11 @@ class UserContactPageAction implements ServerMiddlewareInterface
      */
     private $table;
 
-    public function __construct(Router\RouterInterface $router, Template\TemplateRendererInterface $template = null, AbstractTableGateway $table)
+    public function __construct(Template\TemplateRendererInterface $template = null, AbstractTableGateway $table,  AbstractTableGateway $contactTypeTable)
     {
-        $this->router   = $router;
         $this->template = $template;
         $this->table    = $table;
+        $this->contactTypeTable = $contactTypeTable;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
@@ -84,6 +91,7 @@ class UserContactPageAction implements ServerMiddlewareInterface
         }
 
         $form_data['contact_method']=$contact_method;
+        $form_data['contact_types']=$this->contactTypeTable->fetchAll();
         return new HtmlResponse($this->template->render('app::user-contact-page', $form_data));
     }
 

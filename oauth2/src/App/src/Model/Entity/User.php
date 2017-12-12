@@ -73,7 +73,7 @@ class User
     /**
      * @return string
      */
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->user_id;
     }
@@ -89,7 +89,7 @@ class User
     /**
      * @return string
      */
-    public function getUserName()
+    public function getUserName() : string
     {
         return $this->user_name;
     }
@@ -97,11 +97,8 @@ class User
     /**
      * @param string $user_name
      */
-    public function setUserName($user_name)
+    public function setUserName(string $user_name)
     {
-        if ($user_name=="jim@test.com") {
-            throw new \Exception("No Jim's");
-        }
         $this->user_name = $user_name;
     }
 
@@ -124,7 +121,7 @@ class User
     /**
      * @return string
      */
-    public function getFullName()
+    public function getFullName() : string
     {
         return $this->full_name;
     }
@@ -132,7 +129,7 @@ class User
     /**
      * @param string $full_name
      */
-    public function setFullName($full_name)
+    public function setFullName(string $full_name)
     {
         $this->full_name = $full_name;
     }
@@ -140,7 +137,7 @@ class User
     /**
      * @return string
      */
-    public function getNameAddressedBy()
+    public function getNameAddressedBy() : string
     {
         return $this->name_addressed_by;
     }
@@ -148,7 +145,7 @@ class User
     /**
      * @param string $name_addressed_by
      */
-    public function setNameAddressedBy($name_addressed_by)
+    public function setNameAddressedBy(string $name_addressed_by)
     {
         $this->name_addressed_by = $name_addressed_by;
     }

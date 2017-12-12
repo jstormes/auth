@@ -12,11 +12,12 @@ class UserContactPageFactory
     public function __invoke(ContainerInterface $container)
     {
         $table = $container->get( 'ContactMethodTable' );
-        $router   = $container->get(RouterInterface::class);
+        $userContactTypeTable = $container->get( 'UserContactTypeTable');
+
         $template = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
             : null;
 
-        return new UserContactPageAction($router, $template, $table);
+        return new UserContactPageAction($template, $table, $userContactTypeTable);
     }
 }

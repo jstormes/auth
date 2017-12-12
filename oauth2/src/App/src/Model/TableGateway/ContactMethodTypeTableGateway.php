@@ -30,4 +30,11 @@ class ContactMethodTypeTableGateway extends TableGateway
         parent::__construct('contact_method_type', $adapter, new MetadataFeature(), $resultSet);
     }
 
+    public function fetchAll()
+    {
+        $select=$this->getSql()->select();
+        $select->order('contact_method_type');
+        return $this->select($select)->toArray();
+    }
+
 }

@@ -28,20 +28,20 @@ use App\Model\UserTableGateway;
 
 class UserPageAction implements ServerMiddlewareInterface
 {
-    private $router;
-
+    /**
+     * @var Template\TemplateRendererInterface
+     */
     private $template;
 
     /**
      * @var UserTableGateway
      */
-    private $table;
+    private $userTable;
 
-    public function __construct(Router\RouterInterface $router, Template\TemplateRendererInterface $template = null, AbstractTableGateway $table)
+    public function __construct(AbstractTableGateway $userTable, Template\TemplateRendererInterface $template = null)
     {
-        $this->router   = $router;
-        $this->template = $template;
-        $this->table    = $table;
+        $this->template             = $template;
+        $this->userTable            = $userTable;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
@@ -54,7 +54,7 @@ class UserPageAction implements ServerMiddlewareInterface
 
             $form_data['is_new_user'] = ($user_id===null);
 
-            $user = $this->table->fetch($user_id);
+            $user = $this->userTable->fetch($user_id);
 
             if ($request->getMethod()=='POST') {
 
@@ -64,11 +64,11 @@ class UserPageAction implements ServerMiddlewareInterface
                 $hydrator->hydrate($form, $user);
 
                 if ($form['action']=='save') {
-                    $this->table->save($user);
+                    $this->userTable->save($user);
                 }
 
                 if ($form['action']=='delete') {
-                    $this->table->delete($user);
+                    $this->userTable->delete($user);
                 }
 
                 return new RedirectResponse('/users');

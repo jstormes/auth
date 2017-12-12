@@ -32,13 +32,13 @@ $this->layout('layout::nohtml', ['title' => 'contact_method']) ?>
         &nbsp;&nbsp;
         <div class="form-group">
             <label for="contact_type" class="control-label">contact_type</label>&nbsp;
-            <?php $types=$this->data['contact_method']->getTypes(); ?>
-            <select class="form-control" id="contact_type" name="type">
+            <?php $types=$this->data['contact_types']; ?>
+            <select class="form-control" id="contact_type" name="contact_method_type">
                 <?php foreach ($types as $type) : ?>
-                    <?php if ($type==$this->data['contact_method']->getType()) : ?>
-                        <option selected><?php echo $type; ?></option>
+                    <?php if ($type['contact_method_type']==$this->data['contact_method']->getContactMethodType()) : ?>
+                        <option selected><?php echo $type['contact_method_type']; ?></option>
                     <?php else : ?>
-                        <option><?php echo $type; ?></option>
+                        <option><?php echo $type['contact_method_type']; ?></option>
                     <?php endif; ?>
                 <?php endforeach ?>
             </select>

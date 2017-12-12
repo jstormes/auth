@@ -11,12 +11,12 @@ class UserPageFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        $table = $container->get( 'UserTable' );
-        $router   = $container->get(RouterInterface::class);
+        $userTable = $container->get( 'UserTable' );
+
         $template = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
             : null;
 
-        return new UserPageAction($router, $template, $table);
+        return new UserPageAction($userTable, $template);
     }
 }
