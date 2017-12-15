@@ -47,6 +47,9 @@ class UserPageAction implements ServerMiddlewareInterface
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
 
+//        $data['user']           = $userTable->fetch($userId);
+//        $data['user_contacts']   = $userContactTable->fetch($userId);
+//        $data['user_clients']    = $userClientTable->fetch($userId);
         $form_data=[];
         try {
 
@@ -56,19 +59,29 @@ class UserPageAction implements ServerMiddlewareInterface
 
             $user = $this->userTable->fetch($user_id);
 
+            // $userHtmlForm = new userHtmlForm($user, $template);
+            // $contactsHtmlForm = new contactsHtmlForm($contacts, $template);
+            // $clientsHtmlForm = new clientsHtmlForm($clients, $template);
+
             if ($request->getMethod()=='POST') {
 
+
+                // $user = $userHtmlForm->fetch($request);
+                // $contacts = $contactsHtmlForm->fetch($request);
+                // $clients = $clientsHtmlForm->fetch($request);
                 $form = $request->getParsedBody();
 
                 $hydrator = new \Zend\Hydrator\ClassMethods();
                 $hydrator->hydrate($form, $user);
 
-                if ($form['action']=='save') {
-                    $this->userTable->save($user);
+                if ($form['action']==='save') {
+                    $user->save();
+                    //$this->userTable->save($user);
                 }
 
-                if ($form['action']=='delete') {
-                    $this->userTable->delete($user);
+                if ($form['action']==='delete') {
+                    $user->delete();
+                    //$this->userTable->delete($user);
                 }
 
                 return new RedirectResponse('/users');
@@ -79,7 +92,12 @@ class UserPageAction implements ServerMiddlewareInterface
             $form_data['error']=$e->getMessage();
         }
 
+        $form_data['contact_types']['contact_method_type']=['unknown','email','skype'];
+
         $form_data['user']=$user;
+        $form_data['user_contact']=[];
+        $form_data['user_clients']=[];
+
         return new HtmlResponse($this->template->render('app::user-page', $form_data));
     }
 

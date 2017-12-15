@@ -8,11 +8,8 @@
 
 namespace App\Model\TableGateway;
 
-
-use App\Model\TableGateway\UserTableFactory;
 use Interop\Container\ContainerInterface;
 use Zend\Db\Adapter\Adapter;
-use App\Library\Adapters\authAdapter;
 
 
 class UserTableGatewayFactory
@@ -21,9 +18,8 @@ class UserTableGatewayFactory
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $dbAdapter      = $container->get( Adapter::class );
-        $authAdapter    = $container->get( authAdapter::class );
 
-        $tableGateway   = new UserTableGateway($dbAdapter, $authAdapter);
+        $tableGateway   = new UserTableGateway($dbAdapter);
 
         return $tableGateway;
     }

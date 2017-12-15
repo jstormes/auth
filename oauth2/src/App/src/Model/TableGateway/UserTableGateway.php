@@ -20,9 +20,9 @@ use App\Model\Entity\User;
 class UserTableGateway extends TableGateway
 {
 
-    public function __construct(AdapterInterface $adapter, $authAdapter)
+    public function __construct(AdapterInterface $adapter)
     {
-        $user           = new User($adapter);
+        $user           = new User($this);
 
         $hydrator       = new ClassMethods();
 
@@ -31,22 +31,48 @@ class UserTableGateway extends TableGateway
         parent::__construct('user', $adapter, new MetadataFeature(), $resultSet);
     }
 
-    public function save($user)
+    public function fetch(int $id)
+    {
+        if ($id===null) {
+            /* @var $tableGatewayPrototype \Zend\Db\ResultSet\HydratingResultSet */
+            $tableGatewayPrototype = $this->getResultSetPrototype();
+            return clone ($tableGatewayPrototype->getObjectPrototype());
+        }
+
+        $User = $this->select(array('user_id'=>$id))->current();
+
+        return $User;
+    }
+
+    public function fetchAll(array $where = [], array $options = [])
+    {
+        $pageSize   =   25;
+        $pageNumber =   0;
+
+        if (isset($options['pageSize'])) {
+            $pageSize = $options['pageSize'];
+        }
+
+        if (isset($options['pageNumber'])) {
+            $pageNumber = $options['pageNumber'];
+        }
+
+        $sel = $this->sql->select();
+        $sel->limit($pageSize);
+        $sel->offset($pageNumber);
+
+        $sel->where($where);
+
+        $Users = $this->select($sel);
+
+        return $Users;
+    }
+
+    public function save(User $user)
     {
         $hydrator = new ClassMethods();
 
         $data = $hydrator->extract($user);
-
-//        foreach($data as $key=>$value) {
-//            switch (gettype($value)) {
-//                case 'object':
-//                    $this->saveObject($value);
-//                case 'array':
-//                    $this->saveArray($value);
-//                    unset($data[$key]);
-//                    break;
-//            }
-//        }
 
         if (empty($data['user_id'])) {
             $data['user_id']=null;
@@ -55,29 +81,12 @@ class UserTableGateway extends TableGateway
         else {
             $this->update($data,array('user_id'=>$data['user_id']));
         }
-
     }
 
-    public function fetch($id) {
-
-        if ($id===null) {
-            $tableGatewayPrototype = $this->getResultSetPrototype();
-            return clone ($tableGatewayPrototype->getObjectPrototype());
-        }
-
-        return $this->select(array('user_id'=>$id))->current();
+    public function delete($where)
+    {
+        $where = ['user_id'=>$where->getUserId()];
+        return parent::delete($where);
     }
-
-    public function delete($user) {
-        return parent::delete(array('user_id'=>$user->getUserId()));
-    }
-
-//    public function saveObject($object) {
-//
-//    }
-//
-//    public function saveArray($data) {
-//
-//    }
 
 }

@@ -8,8 +8,6 @@
 
 namespace App\Model\Entity;
 
-use App\Model\TableGateway\ContactMethodTableGateway;
-
 class User
 {
     /**
@@ -37,41 +35,22 @@ class User
      */
     private $full_name="";
 
+    /**
+     * @var object
+     */
+    private $gateway=null;
 
     /**
-     * @var \App\Model\Entity\Client[]
+     * User constructor.
+     * @param object|null $gateway
      */
-    private $clients=[];
-
-    private $adapter;
-
-
-
-
-    public function __construct($adapter)
+    public function __construct($gateway=null)
     {
-        $this->adapter = $adapter;
-
+        $this->gateway = $gateway;
     }
 
     /**
-     * @return \App\Model\Entity\Client[]
-     */
-    public function getClients()
-    {
-        return $this->clients;
-    }
-
-    /**
-     * @param \App\Model\Entity\Client[] $clients
-     */
-    public function setClients($clients)
-    {
-        $this->clients = $clients;
-    }
-
-    /**
-     * @return string
+     * @return int
      */
     public function getUserId() : int
     {
@@ -81,7 +60,7 @@ class User
     /**
      * @param string $user_id
      */
-    public function setUserId($user_id)
+    public function setUserId(string $user_id)
     {
         $this->user_id = $user_id;
     }
@@ -105,7 +84,7 @@ class User
     /**
      * @return string
      */
-    public function getPassword()
+    public function getPassword() : string
     {
         return $this->password;
     }
@@ -113,7 +92,7 @@ class User
     /**
      * @param string $password
      */
-    public function setPassword($password)
+    public function setPassword(string $password)
     {
         $this->password = $password;
     }
@@ -150,15 +129,28 @@ class User
         $this->name_addressed_by = $name_addressed_by;
     }
 
-    public function setContactMethods($contactMethod)
+    /**
+     * @throws \Exception
+     */
+    public function save()
     {
+        if ($this->gateway===null) {
+            throw new \Exception("User->save() not available.");
+        }
 
+        $this->gateway->save($this);
     }
 
-    public function getContactMethods()
+    /**
+     * @throws \Exception
+     */
+    public function delete()
     {
-        $phoneTable = new ContactMethodTableGateway($this->adapter, null);
-        return $phoneTable->select(array('user_id'=>$this->user_id));
+        if ($this->gateway===null) {
+            throw new \Exception("User->delete() not available.");
+        }
+
+        $this->gateway->delete(array('user_id'=>$this->user_id));
     }
 
 }
