@@ -15,9 +15,12 @@ class UserHtmlGateway
     private $user = null;
     private $hydrator = null;
 
-    public function __construct()
+    public function __construct($template = null, $templateEngine= null)
     {
         //$this->request=$request;
+
+        $this->template=$template;
+        $this->templateEngine = $templateEngine;
 
         $this->user           = new User($this);
 
@@ -37,5 +40,26 @@ class UserHtmlGateway
         $this->hydrator->hydrate($form, $user);
 
         return $user;
+    }
+
+    public function render($user){
+        $this->templateEngine->render($this->template, $user);
+    }
+
+    public function process($request, $user){
+        $form = $request->getParsedBody();
+
+        if ($request->getMethod() === 'POST') {
+            $user = $this->fetch($request, $user);
+
+            if ($form['action'] === 'user_save') {
+                $user->save();
+            }
+
+            if ($form['action'] === 'user_delete') {
+                $user->delete();
+            }
+        }
+
     }
 }

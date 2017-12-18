@@ -42,6 +42,27 @@ class UserPageAction implements ServerMiddlewareInterface
     {
         $this->template             = $template;
         $this->userTable            = $userTable;
+        // $this->userContactTable  = $userContactTable;
+        // $this->userClientTable   = $userClientTable;
+        // $this->userHtmlGateway   = $userHtmlGateway;
+        // $this->userContactHtmlGateway = $userContactHtmlGateway;
+        // $this->userClientHtmlGateway = $userClientHtmlGateway;
+        // $this->htmlHeaderGateway = $htmlHeaderGateway;
+    }
+
+    public function processHtml()
+    {
+
+    }
+
+    public function processCli()
+    {
+
+    }
+
+    public function ProcessJson()
+    {
+
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
@@ -55,6 +76,7 @@ class UserPageAction implements ServerMiddlewareInterface
 
             $user_id=$request->getAttribute('user_id',null);
 
+            // TODO: Code stink, crosses the streams.
             $form_data['is_new_user'] = ($user_id===null);
 
             $user = $this->userTable->fetch($user_id);
@@ -66,9 +88,9 @@ class UserPageAction implements ServerMiddlewareInterface
             if ($request->getMethod()=='POST') {
 
 
-                // $user = $userHtmlForm->fetch($request);
-                // $contacts = $contactsHtmlForm->fetch($request);
-                // $clients = $clientsHtmlForm->fetch($request);
+                // $user = $userHtmlForm->fetch($request, $user);
+                // $contacts = $contactsHtmlForm->fetch($request, $contacts);
+                // $clients = $clientsHtmlForm->fetch($request, $clients);
                 $form = $request->getParsedBody();
 
                 $hydrator = new \Zend\Hydrator\ClassMethods();
@@ -84,11 +106,13 @@ class UserPageAction implements ServerMiddlewareInterface
                     //$this->userTable->delete($user);
                 }
 
+                //$alert['notice']='new_user_created';
                 return new RedirectResponse('/users');
             }
 
         }
         catch (\Exception $e) {
+            //$alert['error']=$e->getMessage();
             $form_data['error']=$e->getMessage();
         }
 
@@ -97,6 +121,12 @@ class UserPageAction implements ServerMiddlewareInterface
         $form_data['user']=$user;
         $form_data['user_contact']=[];
         $form_data['user_clients']=[];
+
+        //$html = $this->headerHtmlForm->render($alerts[]);
+        //$html .= $userHtmlForm->render( $user);
+        //$html .= $contactsHtmlForm->render( $userContacts);
+        //$html .= $clientsHtmlForm->render( $userClients);
+
 
         return new HtmlResponse($this->template->render('app::user-page', $form_data));
     }

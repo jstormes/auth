@@ -194,3 +194,16 @@ ALTER TABLE `user_to_client`
   ADD CONSTRAINT `client` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE;
 COMMIT;
+
+--
+-- Table structure for table `translate`
+--
+
+CREATE TABLE IF NOT EXISTS `translate` (
+  `original_string` varchar(767) COLLATE utf8mb4_bin NOT NULL,
+  `en` text COLLATE utf8mb4_bin DEFAULT NULL,
+  `ft` text COLLATE utf8mb4_bin DEFAULT NULL,
+  PRIMARY KEY (`original_string`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+COMMIT;
+
