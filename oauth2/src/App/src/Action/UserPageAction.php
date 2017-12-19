@@ -60,13 +60,21 @@ class UserPageAction implements ServerMiddlewareInterface
 
     }
 
-    public function ProcessJson()
+    public function processJson()
     {
 
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
+        //if ($request->accept==='json/text') {
+        //  return ($this->processJson($request));
+        // }
+        //if ($request->type === 'cli') {
+        //  return ($this->processCli($request));
+        //}
+        //return ($this->processHtml($request));
+
 
 //        $data['user']           = $userTable->fetch($userId);
 //        $data['user_contacts']   = $userContactTable->fetch($userId);
