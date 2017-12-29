@@ -8,9 +8,8 @@
  * Lightweight web to entity gateway.
  */
 
-namespace App\Library\HtmlGateway;
+namespace Html;
 
-use PHPUnit\Runner\Exception;
 use Zend\Hydrator\ClassMethods;
 
 class AbstractHtmlGateway
