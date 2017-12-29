@@ -24,7 +24,14 @@ return [
             'Zend\Expressive\WhoopsPageHandler' => Container\WhoopsPageHandlerFactory::class,
             Zend\Db\Adapter\Adapter::class      => Zend\Db\Adapter\AdapterServiceFactory::class,
             'UserTable'                         => App\Model\TableGateway\UserTableGatewayFactory::class,
-            App\Library\Adapters\authAdapter::class     => App\Library\Adapters\authAdapterFactory::class
+            'ContactMethodTable'                => App\Model\TableGateway\ContactMethodTableGatewayFactory::class,
+            'UserContactTypeTable'            => App\Model\TableGateway\ContactMethodTypeTableGatewayFactory::class,
+            App\Library\Adapters\authAdapter::class     => App\Library\Adapters\authAdapterFactory::class,
+            App\Model\HtmlGateway\UserHtmlGateway::class => App\Model\HtmlGateway\UserHtmlGatewayFactory::class,
+            App\Model\HtmlGateway\HeaderHtmlGateway::class => App\Model\HtmlGateway\HeaderHtmlGatewayFactory::class,
+            App\Model\HtmlGateway\FooterHtmlGateway::class => App\Model\HtmlGateway\FooterHtmlGatewayFactory::class,
+            App\Model\HtmlGateway\BodyHtmlGateway::class => App\Model\HtmlGateway\BodyHtmlGatewayFactory::class,
+            App\Model\HtmlGateway\UserContactHtmlGateway::class => App\Model\HtmlGateway\UserContactHtmlGatewayFactory::class
         ],
     ],
 
@@ -36,3 +43,4 @@ return [
         ],
     ],
 ];
+

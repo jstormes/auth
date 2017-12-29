@@ -15,11 +15,13 @@ use Zend\Hydrator\ClassMethods;
 class AbstractHtmlGateway
 {
     /**
+     * Relative path to template file.
      * @var null|string
      */
     private $template=null;
 
     /**
+     * Array of helpers.
      * @var array
      */
     private $helpers=[];
@@ -80,10 +82,12 @@ class AbstractHtmlGateway
         return $this->data;
     }
 
+
     /**
-     * @param $data
+     * @param null $data
      * @return string
      * @throws \Exception
+     * @throws \Throwable
      */
     public function render($data=null){
 
@@ -92,7 +96,7 @@ class AbstractHtmlGateway
         }
 
         if (!file_exists($this->template)) {
-            throw new \Exception("template fiile not found");
+            throw new \Exception("template file not found");
         }
 
         try {
@@ -201,6 +205,15 @@ class AbstractHtmlGateway
         return $data;
     }
 
+    /**
+     * Process a PSR-7 request from browser. $data MUST support record pattern.
+     * Use prototype pattern for priming data.
+     *
+     * @param $request
+     * @param string $buttonName
+     * @param null $data
+     * @return mixed
+     */
     public function process($request, $buttonName='action', $data=null){
 
         if ($data!==null){
