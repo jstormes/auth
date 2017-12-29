@@ -1,4 +1,4 @@
-<?php $this->layout('layout::default', ['title' => 'Home']) ?>
+<?php //$this->layout('layout::default', ['title' => 'Home']) ?>
 
 <div class="container">
     <div class="col-md-1">
@@ -8,22 +8,22 @@
 
 
 <!-- Error Notification -->
-<?php if (!empty($this->data['error'])) : ?>
-    <div class="container">
-        <div class="col-md-1">
-            &nbsp;
-        </div>
-        <div class="col-md-10">
-            <div class="alert alert-danger" role="alert">
-                <strong>Oh snap!</strong> <?php echo $this->data['error']; ?>
-            </div>
-        </div>
-    </div>
-<?php endif ?>
+<?php //if (!empty($this->data['error'])) : ?>
+<!--    <div class="container">-->
+<!--        <div class="col-md-1">-->
+<!--            &nbsp;-->
+<!--        </div>-->
+<!--        <div class="col-md-10">-->
+<!--            <div class="alert alert-danger" role="alert">-->
+<!--                <strong>Oh snap!</strong> --><?php //echo $this->data['error']; ?>
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<?php //endif ?>
 
 <!-- User Info -->
 <form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']);?>" method="post">
-    <input type="hidden" name="user_id" value="<?php echo $this->data['user']->getUserId(); ?>">
+    <input type="hidden" name="user_id" value="<?php echo $this->data->getUserId(); ?>">
 
     <div class="well well-sm">
         <div class="container">
@@ -36,7 +36,7 @@
         <div class="form-group">
             <label for="user_name" class="col-md-2 control-label">user_name</label>
             <div class="col-md-9">
-                <input type="email" name="user_name" class="form-control" id="user_name" placeholder="user_name" value="<?php echo $this->data['user']->getUserName(); ?>">
+                <input type="email" name="user_name" class="form-control" id="user_name" placeholder="user_name" value="<?php echo $this->data->getUserName(); ?>">
             </div>
         </div>
         <div class="form-group">
@@ -48,13 +48,13 @@
         <div class="form-group">
             <label for="full_name" class="col-md-2 control-label">full_name</label>
             <div class="col-md-9">
-                <input class="form-control" name="full_name" id="full_name" placeholder="full_name" value="<?php echo $this->data['user']->getFullName(); ?>">
+                <input class="form-control" name="full_name" id="full_name" placeholder="full_name" value="<?php echo $this->data->getFullName(); ?>">
             </div>
         </div>
         <div class="form-group">
             <label for="name_addressed_by" class="col-md-2 control-label">name_addressed_by</label>
             <div class="col-md-9">
-                <input class="form-control" name="name_addressed_by" id="name_addressed_by" placeholder="name_addressed_by" value="<?php echo $this->data['user']->getNameAddressedBy(); ?>">
+                <input class="form-control" name="name_addressed_by" id="name_addressed_by" placeholder="name_addressed_by" value="<?php echo $this->data->getNameAddressedBy(); ?>">
             </div>
         </div>
 
@@ -63,7 +63,7 @@
                 &nbsp;
             </div>
             <div class="col-md-4">
-                <?php if ($this->data['is_new_user']) : ?>
+                <?php if ($this->data->getUserId()===null) : ?>
                     <button type="submit" name="action" value="save" class="btn btn-primary" value="submit">Add User</button>
                 <?php else : ?>
                     <button type="submit" name="action" value="save" class="btn btn-primary" value="submit">Update User</button>
@@ -75,86 +75,6 @@
     </div>
 </form>
 
-<!-- contact_methods -->
-<form class="form-horizontal">
-    <div class="well well-sm">
-        <div class="container">
-            <div class="col-md-11">
-                <h3>user_contact_methods</h3>
-                <hr>
-            </div>
-        </div>
-        <?php foreach ($this->data['user_contact'] as $contactMethod) : ?>
-        <div class="form-group">
-<!--            <label for="phone" class="col-md-2 control-label">--><?php //echo $contactMethod->getContactMethodType(); ?><!--</label>-->
 
-            <div class="col-md-2">
-                <div class="input-group">
-                    <?php $types=$this->data['contact_types']; ?>
-                    <select class="form-control" id="contact_type" name="contact_method_type">
-                        <?php foreach ($types as $type) : ?>
-                            <?php if ($type['contact_method_type']==$contactMethod->getContactMethodType()) : ?>
-                                <option selected><?php echo $type['contact_method_type']; ?></option>
-                            <?php else : ?>
-                                <option><?php echo $type['contact_method_type']; ?></option>
-                            <?php endif; ?>
-                        <?php endforeach ?>
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="input-group">
-                    <input type="tel" class="form-control" name="contact_value[]" value="<?php echo $contactMethod->getContactValue(); ?>" readonly>
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#phoneModal<?php echo $contactMethod->getContactMethodId(); ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <?php endforeach ?>
-
-        <div class="form-group">
-            <div class="col-md-8">
-                &nbsp;
-            </div>
-            <div class="col-md-4">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#phoneModal">
-                    Add contact_method
-                </button>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit contact_method Modal -->
-    <?php foreach ($this->data['user_contact'] as $contactMethod) : ?>
-    <div class="modal fade" id="phoneModal<?php echo $contactMethod->getContactMethodId(); ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">update_contact_method</h4>
-                </div>
-                <iframe src="/user/<?php echo $this->data['user']->getUserId(); ?>/contact/<?php echo $contactMethod->getContactMethodId(); ?>" width="100%" frameBorder="0"></iframe>
-            </div>
-        </div>
-    </div>
-    <?php endforeach ?>
-
-    <!-- Add New contact_method Modal -->
-    <div class="modal fade" id="phoneModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">add_contact_method</h4>
-                </div>
-                <iframe src="/user/<?php echo $this->data['user']->getUserId(); ?>/contact" width="100%" frameBorder="0"></iframe>
-            </div>
-        </div>
-    </div>
-
-</form>
 
 

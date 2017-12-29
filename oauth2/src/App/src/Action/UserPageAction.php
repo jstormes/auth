@@ -9,8 +9,10 @@
 namespace App\Action;
 
 use App\Model\Entity\User;
+use App\Model\HtmlGateway\HeaderHtmlGatewayFactory;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
+use PHPUnit\Runner\Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\ResultSet\ResultSet;
@@ -24,30 +26,86 @@ use Zend\Expressive\Twig\TwigRenderer;
 use Zend\Expressive\ZendView\ZendViewRenderer;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use App\Model\UserTableGateway;
+use App\Model\HtmlGateway\UserHtmlGateway;
+use App\Model\HtmlGateway\BodyHtmlGateway;
 
 
 class UserPageAction implements ServerMiddlewareInterface
 {
     /**
-     * @var Template\TemplateRendererInterface
+     * @var BodyHtmlGateway
      */
-    private $template;
+    private $bodyHtmlGateway;
+
+    /**
+     * @var UserHtmlGateway
+     */
+    private $userHtmlGateway;
+
+    /**
+     * @var ContactHtmlGateway
+     */
+    private $contactHtmlGateway;
 
     /**
      * @var UserTableGateway
      */
-    private $userTable;
+    private $userTableGateway;
 
-    public function __construct(AbstractTableGateway $userTable, Template\TemplateRendererInterface $template = null)
+    /**
+     * @var ContactTableGateway
+     */
+    private $contactTableGateway;
+
+    /**
+     * @param BodyHtmlGateway $bodyHtmlGateway
+     */
+    public function setBodyHtmlGateway($bodyHtmlGateway)
     {
-        $this->template             = $template;
-        $this->userTable            = $userTable;
-        // $this->userContactTable  = $userContactTable;
-        // $this->userClientTable   = $userClientTable;
-        // $this->userHtmlGateway   = $userHtmlGateway;
-        // $this->userContactHtmlGateway = $userContactHtmlGateway;
-        // $this->userClientHtmlGateway = $userClientHtmlGateway;
-        // $this->htmlHeaderGateway = $htmlHeaderGateway;
+        $this->bodyHtmlGateway = $bodyHtmlGateway;
+        return $this;
+    }
+
+    /**
+     * @param UserHtmlGateway $userHtmlGateway
+     */
+    public function setUserHtmlGateway($userHtmlGateway)
+    {
+        $this->userHtmlGateway = $userHtmlGateway;
+        return $this;
+    }
+
+    /**
+     * @param ContactHtmlGateway $contactHtmlGateway
+     */
+    public function setContactHtmlGateway($contactHtmlGateway)
+    {
+        $this->contactHtmlGateway = $contactHtmlGateway;
+        return $this;
+    }
+
+    /**
+     * @param UserTableGateway $userTableGateway
+     */
+    public function setUserTableGateway($userTableGateway)
+    {
+        $this->userTableGateway = $userTableGateway;
+        return $this;
+    }
+
+    /**
+     * @param ContactTableGateway $contactTableGateway
+     */
+    public function setContactTableGateway($contactTableGateway)
+    {
+        $this->contactTableGateway = $contactTableGateway;
+        return $this;
+    }
+
+    public function __construct()
+    {
+
+
     }
 
     public function processHtml()
@@ -67,6 +125,62 @@ class UserPageAction implements ServerMiddlewareInterface
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
+        //try {
+            $user_id = $request->getAttribute('user_id', null);
+
+            $user = $this->userTableGateway->fetch($user_id);
+            $userContact = $this->contactTableGateway->fetch($user_id);
+
+
+            $html = $this->bodyHtmlGateway
+                ->addToSection('content',$this->userHtmlGateway,$user);
+                //->addToSection('content',$this->contactHtmlGateway,['user_contact'=>$userContact])
+
+
+//        }
+//        catch (\Exception $e) {
+//            $form_data['error']=$e->getMessage();
+//            $html = $e->getMessage();
+//        }
+        return new HtmlResponse($html->render('head'));
+
+
+        $html = $this->headerGateway->render('user_info');
+        //$html .= $this->userHtml->render($user);
+        return new HtmlResponse($html);
+
+
+        $user =  $this->userTable->fetch($user_id);
+        $contact = $this->contactTable->fetch($user_id);
+
+        $user = $this->userHtml->process($request, 'user_action', $user);
+        $contact = $this->contactHtml->process($request, 'contact_action', $user);
+
+        return new HtmlResponse(
+            $this->HtmlBodyGateway
+                ->addToSection('content',$this->userHtmlGateway,$user)
+                ->addToSection('content',$this->contactHtmlGateway,$contact)
+                ->render(['title'=>'title','error'=>$error])
+        );
+
+//            ->addTitle('title')
+//            ->addGateway($this->userHtml,$user)
+//            ->addGateway($this->contactHtml,$contacts)
+//            ->addJavaScriptFileTop($asdfasd)
+//            ->addJavascriptFileBottom($dafdasfa)
+//            ->addCss($adfasdf)
+//            ->addMeta($afdsfas)
+//            ->render();
+
+        // Call all the render() functions
+        $this->HtmlTemplate()->render();
+
+        $this->JasonGateway()
+            ->add('user',$user)
+            ->contact('contact',$contact)
+            ->client('client',$client)
+            ->render();
+
         //if ($request->accept==='json/text') {
         //  return ($this->processJson($request));
         // }

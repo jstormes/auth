@@ -12,7 +12,6 @@ namespace App\Model\TableGateway;
 use App\Model\TableGateway\UserTableFactory;
 use Interop\Container\ContainerInterface;
 use Zend\Db\Adapter\Adapter;
-use App\Library\Adapters\authAdapter;
 
 
 class ContactMethodTableGatewayFactory
