@@ -34,7 +34,7 @@ services:
   bash:
     build:
       context: _docker
-      dockerfile: Dockerfile.php-local
+      dockerfile: Dockerfile.lamp_cron
     environment:
       MYSQL_PWD: $MYSQL_ROOT_PASSWORD
       MYSQL_DATABASE_NAME: $MYSQL_DATABASE_NAME
@@ -42,18 +42,19 @@ services:
       EXTERNAL_MYSQL_PORT: $EXTERNAL_MYSQL_PORT
       XDEBUG_CONFIG: remote_host=docker.for.win.localhost remote_port=$XDEBUG_REMOTE_PORT
       PHP_IDE_CONFIG: serverName=auth
-    links:
-      - mysql:${COMPOSE_PROJECT_NAME}_mysql
+#    links:
+#      - mysql:${COMPOSE_PROJECT_NAME}_mysql
 #    depends_on:
 #      - load_database
     networks:
       - net
     volumes:
+      - ./oauth2:/var/www
       - ./:/opt/project
       - ./_ssh/:/root/ssh
       - ./_docker/bash_scripts:/usr/local/sbin
     working_dir: /opt/project
-    entrypoint: bash
+#    entrypoint: bash
     image:
       ${COMPOSE_PROJECT_NAME}_bash
     container_name:

@@ -11,6 +11,7 @@
 namespace Html;
 
 use Zend\Hydrator\ClassMethods;
+use Psr\Http\Message\ServerRequestInterface;
 
 class AbstractHtmlGateway
 {
@@ -186,12 +187,20 @@ class AbstractHtmlGateway
     }
 
 
+    /**
+     * @param $Prototype
+     * @return $this
+     */
     public function setPrototype($Prototype)
     {
         $this->setData($Prototype);
         return $this;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return mixed
+     */
     public function fetch(ServerRequestInterface $request)
     {
         $formData = $request->getParsedBody();
@@ -206,7 +215,7 @@ class AbstractHtmlGateway
     }
 
     /**
-     * Process a PSR-7 request from browser. $data MUST support record pattern.
+     * Process a PSR-7 request from browser. $data MUST support active record pattern.
      * Use prototype pattern for priming data.
      *
      * @param $request

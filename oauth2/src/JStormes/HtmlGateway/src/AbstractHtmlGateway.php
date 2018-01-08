@@ -5,12 +5,13 @@
  * Date: 12/20/2017
  * Time: 2:08 PM
  *
- * Lightweight web to entity gateway.
+ * Lightweight html to/from entity gateway.
  */
 
 namespace Html;
 
 use Zend\Hydrator\ClassMethods;
+use Psr\Http\Message\ServerRequestInterface;
 
 class AbstractHtmlGateway
 {
@@ -51,7 +52,7 @@ class AbstractHtmlGateway
         $this->template = $template;
         $this->helpers  = $helpers;
 
-        $this->hydrator       = new ClassMethods();
+        $this->hydrator = new ClassMethods();
     }
 
     /**
@@ -66,22 +67,38 @@ class AbstractHtmlGateway
     {
         if (isset($this->helpers[$name])) {
             $function = $this->helpers[$name];
-            return $function->execute($name, $arguments);
+            return $function->execute($name, $arguments, $this);
         }
         throw new \Exception($name." not found");
     }
 
+    /**
+     * @param $name
+     * @param $helper
+     * @return $this
+     */
+    public function addHelper($name,$helper) {
+        $this->helpers[$name] = $helper;
+        return $this;
+    }
+
+    /**
+     * @param $data
+     * @return $this
+     */
     public function setData($data)
     {
         $this->data = $data;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function data()
     {
         return $this->data;
     }
-
 
     /**
      * @param null $data
@@ -186,12 +203,20 @@ class AbstractHtmlGateway
     }
 
 
+    /**
+     * @param $Prototype
+     * @return $this
+     */
     public function setPrototype($Prototype)
     {
         $this->setData($Prototype);
         return $this;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return mixed
+     */
     public function fetch(ServerRequestInterface $request)
     {
         $formData = $request->getParsedBody();
