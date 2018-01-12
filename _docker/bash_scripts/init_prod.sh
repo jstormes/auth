@@ -11,21 +11,35 @@
 # container, without having to understand how to connect and
 # maintain separate services.
 #
-service mysql start
-service apache2 start
-service cron start
+
+mysqld_safe &
+MYSQL_PID=$!
+
+apachectl -DFOREGROUND &
+APACHE_PID=$!
+
+/usr/sbin/cron -f &
+CRON_PID=$!
+
 while /bin/true; do
-  service mysql status > /dev/null
-  PROCESS_1_STATUS=$?
-  service apache2 status > /dev/null
-  PROCESS_2_STATUS=$?
-  service cron status > /dev/null
-  PROCESS_3_STATUS=$?
-  # If the greps above find anything, they will exit with 0 status
-  # If they are not both 0, then something is wrong
-  if [ $PROCESS_1_STATUS -ne 0 -o $PROCESS_2_STATUS -ne 0 -o $PROCESS_2_STATUS -ne 0 ]; then
-    echo "One of the processes has died!!!!!"
+
+  if ! ps -p $MYSQL_PID > /dev/null
+  then
+    echo "MySQL died!!!"
     exit -1
   fi
+
+  if ! ps -p $APACHE_PID > /dev/null
+  then
+    echo "Apache died!!!"
+    exit -1
+  fi
+
+  if ! ps -p $CRON_PID > /dev/null
+  then
+    echo "Cron died!!!"
+    exit -1
+  fi
+
   sleep 60
 done

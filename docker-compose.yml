@@ -34,7 +34,7 @@ services:
   bash:
     build:
       context: _docker
-      dockerfile: Dockerfile.lamp_cron
+      dockerfile: Dockerfile.loopback.world
     environment:
       MYSQL_PWD: $MYSQL_ROOT_PASSWORD
       MYSQL_DATABASE_NAME: $MYSQL_DATABASE_NAME
@@ -46,8 +46,9 @@ services:
       - net
     ports:
       - 443:443
+      - 80:80
     volumes:
-      - ./oauth2:/var/www
+      - ./:/var/www
       - ./:/opt/project
       - ./_ssh/:/root/ssh
       - ./_docker/bash_scripts:/usr/local/sbin
