@@ -42,12 +42,10 @@ services:
       EXTERNAL_MYSQL_PORT: $EXTERNAL_MYSQL_PORT
       XDEBUG_CONFIG: remote_host=docker.for.win.localhost remote_port=$XDEBUG_REMOTE_PORT
       PHP_IDE_CONFIG: serverName=auth
-#    links:
-#      - mysql:${COMPOSE_PROJECT_NAME}_mysql
-#    depends_on:
-#      - load_database
     networks:
       - net
+    ports:
+      - 443:443
     volumes:
       - ./oauth2:/var/www
       - ./:/opt/project
