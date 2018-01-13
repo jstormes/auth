@@ -1,40 +1,21 @@
 version: '3'
 
 services:
-  oauth2:
-    build:
-       context: _docker
-       dockerfile: Dockerfile.php-local
+  server:
+    image: jstormes/loopback-world
     environment:
-      MYSQL_USER: root
-      MYSQL_PWD: $MYSQL_ROOT_PASSWORD
-      MYSQL_DATABASE_NAME: $MYSQL_DATABASE_NAME
       XDEBUG_CONFIG: remote_host=docker.for.win.localhost remote_port=$XDEBUG_REMOTE_PORT
 #      XDEBUG_CONFIG: remote_host=docker.for.mac.localhost remote_port=$XDEBUG_REMOTE_PORT
-      db_host: 'mysql'
-      db_name: $EZOAUTH_DBNAME
-      db_user: $EZOAUTH_DBUSER
-      db_pass: $EZOAUTH_DBPASS
-    links:
-      - mysql
-    depends_on:
-      - mysql
     networks:
       - net
     ports:
       - $OAUTH2_HTTPS:443
+      - 80:80
+      # - 3306:3306
     volumes:
-      - ./oauth2:/var/www
-    image:
-      ${COMPOSE_PROJECT_NAME}_oauth2
-    container_name:
-      ${COMPOSE_PROJECT_NAME}_oauth2
-    hostname:
-      ${COMPOSE_PROJECT_NAME}_oauth2
+      - ./:/var/www
   bash:
-    build:
-      context: _docker
-      dockerfile: Dockerfile.loopback.world
+    image: jstormes/loopback-world:latest
     environment:
       MYSQL_PWD: $MYSQL_ROOT_PASSWORD
       MYSQL_DATABASE_NAME: $MYSQL_DATABASE_NAME
@@ -42,82 +23,13 @@ services:
       EXTERNAL_MYSQL_PORT: $EXTERNAL_MYSQL_PORT
       XDEBUG_CONFIG: remote_host=docker.for.win.localhost remote_port=$XDEBUG_REMOTE_PORT
       PHP_IDE_CONFIG: serverName=auth
-    networks:
-      - net
-    ports:
-      - 443:443
-      - 80:80
     volumes:
       - ./:/var/www
       - ./:/opt/project
-      - ./_ssh/:/root/ssh
-      - ./_docker/bash_scripts:/usr/local/sbin
+#      - ./_ssh/:/root/ssh
+#      - ./_docker/bash_scripts:/usr/local/sbin
     working_dir: /opt/project
-#    entrypoint: bash
-    image:
-      ${COMPOSE_PROJECT_NAME}_bash
-    container_name:
-      ${COMPOSE_PROJECT_NAME}_bash
-    hostname:
-      ${COMPOSE_PROJECT_NAME}_bash
-  install:
-    build:
-      context: _docker
-      dockerfile: Dockerfile.php-local
-    entrypoint: install.sh
-    environment:
-      MYSQL_PWD: $MYSQL_ROOT_PASSWORD
-      MYSQL_DATABASE_NAME: $MYSQL_DATABASE_NAME
-      COMPOSE_PROJECT_NAME: $COMPOSE_PROJECT_NAME
-      EXTERNAL_MYSQL_PORT: $EXTERNAL_MYSQL_PORT
-    links:
-      - mysql:${COMPOSE_PROJECT_NAME}_mysql
-    depends_on:
-      - mysql
-    networks:
-      - net
-    volumes:
-      - ./:/opt/project
-      - ./_ssh/:/root/ssh
-      - ./_docker/bash_scripts:/usr/local/sbin
-    working_dir: /opt/project
-    image:
-      ${COMPOSE_PROJECT_NAME}_install
-    container_name:
-      ${COMPOSE_PROJECT_NAME}_install
-    hostname:
-      ${COMPOSE_PROJECT_NAME}_install
-  mysql:
-    image: "mariadb"
-    environment:
-      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-      MYSQL_DATABASE_NAME: $MYSQL_DATABASE_NAME
-      EXTERNAL_MYSQL_PORT: $EXTERNAL_MYSQL_PORT
-    networks:
-      - net
-    ports:
-      - $EXTERNAL_MYSQL_PORT:3306
-    volumes:
-      - ./:/opt/project
-    container_name:
-      ${COMPOSE_PROJECT_NAME}_mysql
-    hostname:
-      ${COMPOSE_PROJECT_NAME}_mysql
-  phpmyadmin:
-    image: "phpmyadmin/phpmyadmin"
-    ports:
-      - $MYADMIN_PORT:80
-    links:
-      - mysql:db
-    depends_on:
-      - mysql
-#      - install
-    networks:
-      - net
-    container_name:
-      ${COMPOSE_PROJECT_NAME}_phpmyadmin
-    hostname:
-      ${COMPOSE_PROJECT_NAME}_phpmyadmin
+    entrypoint: bash
 networks:
   net:
     driver: bridge

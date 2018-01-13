@@ -20,13 +20,8 @@
 # alias mv='mv -i'
 
 
-copy_ssh.sh
+#copy_ssh.sh
 
-MYSQL_HOST="${COMPOSE_PROJECT_NAME}_mysql"
-
-echo "[client]"                  >  ~/.my.cnf
-echo "password=\"${MYSQL_PWD}\"" >> ~/.my.cnf
-echo "host=${MYSQL_HOST}"        >> ~/.my.cnf
 
 echo
 echo
