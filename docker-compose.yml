@@ -7,6 +7,9 @@ services:
       XDEBUG_CONFIG: remote_host=docker.for.win.localhost remote_port=$XDEBUG_REMOTE_PORT
 #      XDEBUG_CONFIG: remote_host=docker.for.mac.localhost remote_port=$XDEBUG_REMOTE_PORT
       MYSQL_PWD: naked
+      OAUTH_DBNAME: oauth2
+      OAUTH_DBUSER: oauth2
+      OAUTH_DBPASS: oauthuser
     networks:
       - net
     ports:
@@ -18,17 +21,17 @@ services:
   bash:
     image: jstormes/loopback-world
     environment:
-      MYSQL_PWD: naked
-      MYSQL_DATABASE_NAME: $MYSQL_DATABASE_NAME
-      COMPOSE_PROJECT_NAME: $COMPOSE_PROJECT_NAME
-      EXTERNAL_MYSQL_PORT: $EXTERNAL_MYSQL_PORT
       XDEBUG_CONFIG: remote_host=docker.for.win.localhost remote_port=$XDEBUG_REMOTE_PORT
-      PHP_IDE_CONFIG: serverName=auth
+#      XDEBUG_CONFIG: remote_host=docker.for.mac.localhost remote_port=$XDEBUG_REMOTE_PORT
+      MYSQL_PWD: naked
+      OAUTH_DBNAME: oauth2
+      OAUTH_DBUSER: oauth2
+      OAUTH_DBPASS: oauthuser
+    networks:
+      - net
     volumes:
       - ./:/var/www
       - ./:/opt/project
-#      - ./_ssh/:/root/ssh
-#      - ./_docker/bash_scripts:/usr/local/sbin
     working_dir: /opt/project
     entrypoint: bash
 networks:
