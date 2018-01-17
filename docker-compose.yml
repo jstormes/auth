@@ -6,18 +6,19 @@ services:
     environment:
       XDEBUG_CONFIG: remote_host=docker.for.win.localhost remote_port=$XDEBUG_REMOTE_PORT
 #      XDEBUG_CONFIG: remote_host=docker.for.mac.localhost remote_port=$XDEBUG_REMOTE_PORT
+      MYSQL_PWD: naked
     networks:
       - net
     ports:
-      - $OAUTH2_HTTPS:443
+      - 443:443
       - 80:80
       # - 3306:3306
     volumes:
       - ./:/var/www
   bash:
-    image: jstormes/loopback-world:latest
+    image: jstormes/loopback-world
     environment:
-      MYSQL_PWD: $MYSQL_ROOT_PASSWORD
+      MYSQL_PWD: naked
       MYSQL_DATABASE_NAME: $MYSQL_DATABASE_NAME
       COMPOSE_PROJECT_NAME: $COMPOSE_PROJECT_NAME
       EXTERNAL_MYSQL_PORT: $EXTERNAL_MYSQL_PORT
