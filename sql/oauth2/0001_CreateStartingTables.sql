@@ -15,8 +15,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `ezoauth2`
 --
-CREATE DATABASE IF NOT EXISTS `ezoauth2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
-USE `ezoauth2`;
+--CREATE DATABASE IF NOT EXISTS `ezoauth2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+--USE `ezoauth2`;
 
 -- --------------------------------------------------------
 
@@ -200,7 +200,7 @@ COMMIT;
 --
 
 CREATE TABLE IF NOT EXISTS `translate` (
-  `original_string` varchar(767) COLLATE utf8mb4_bin NOT NULL,
+  `original_string` varchar(100) COLLATE utf8mb4_bin NOT NULL,
   `en` text COLLATE utf8mb4_bin DEFAULT NULL,
   `ft` text COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`original_string`)

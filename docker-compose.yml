@@ -4,12 +4,14 @@ services:
   server:
     image: jstormes/loopback-world
     environment:
-      XDEBUG_CONFIG: remote_host=docker.for.win.localhost remote_port=$XDEBUG_REMOTE_PORT
-#      XDEBUG_CONFIG: remote_host=docker.for.mac.localhost remote_port=$XDEBUG_REMOTE_PORT
+#      XDEBUG_CONFIG: remote_host=docker.for.win.localhost remote_port=9000
+      XDEBUG_CONFIG: remote_host=docker.for.mac.localhost remote_port=9000
       MYSQL_PWD: naked
-      OAUTH_DBNAME: oauth2
-      OAUTH_DBUSER: oauth2
-      OAUTH_DBPASS: oauthuser
+      db_host: localhost
+      db_name: oauth2
+      db_user: oauth2
+      db_pass: oauthuser
+      db_port: 3306
     networks:
       - net
     ports:
