@@ -18,6 +18,9 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `ezoauth2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 USE `ezoauth2`;
 
+CREATE USER 'ezoauth2'@'%' IDENTIFIED BY 'oauthuser';
+GRANT ALL PRIVILEGES ON *.* TO 'ezoauth2'@'%'  WITH GRANT OPTION;
+
 -- --------------------------------------------------------
 
 --
